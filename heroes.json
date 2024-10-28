@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "name": "Captain America",
+    "alias": "Steve Rogers",
+    "power": [
+      "Super strength",
+      "Enhanced agility",
+      "Vibranium shield"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Namor the Sub-Mariner",
+    "alias": "Namor McKenzie",
+    "power": [
+      "Aquatic abilities",
+      "Super strength",
+      "Flight"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Human Torch",
+    "alias": "Jim Hammond",
+    "power": [
+      "Pyrokinesis",
+      "Flight",
+      "Invulnerability"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "The Angel",
+    "alias": "Thomas Halloway",
+    "power": [
+      "Peak human condition",
+      "Martial arts",
+      "Detective skills"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "The Vision",
+    "alias": "Aarkus",
+    "power": [
+      "Density control",
+      "Intangibility",
+      "Flight",
+      "Super strength"
+    ]
+  }
+]

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Golden Age Heroes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Marvel Golden Age Heroes</h1>
+
+    <h2>Add New Hero</h2>
+    <form id="heroForm">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="power">Power:</label>
+            <input type="text" class="form-control" id="power" required>
+        </div>
+        <div class="form-group">
+            <label for="alias">Alias (optional):</label>
+            <input type="text" class="form-control" id="alias">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Hero</button>
+    </form>
+
+    <h2>List of Heroes</h2>
+    <table class="table" id="heroesTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Power</th>
+            <th>Alias</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Heroes will be added here via JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<script src="../app.js"></script> <!-- Your JavaScript file -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const heroForm = document.getElementById('heroForm');
+        const heroesTable = document.getElementById('heroesTable').getElementsByTagName('tbody')[0];
+
+        // Function to fetch heroes from the API
+        function fetchHeroes() {
+            fetch('/marvel')
+                .then(response => response.json())
+                .then(data => {
+                    // Clear the table
+                    heroesTable.innerHTML = '';
+                    // Add heroes to the table
+                    data.forEach(hero => {
+                        const row = heroesTable.insertRow();
+                        row.innerHTML = `
+                                <td>${hero.id}</td>
+                                <td>${hero.name}</td>
+                                <td>${hero.power}</td>
+                                <td>${hero.alias || 'None'}</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="updateHero(${hero.id})">Update</button>
+                                    <button class="btn btn-danger" onclick="deleteHero(${hero.id})">Delete</button>
+                                </td>
+                            `;
+                    });
+                })
+                .catch(error => console.error('Error fetching heroes:', error));
+        }
+
+        // Create a new hero
+        heroForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const power = document.getElementById('power').value;
+            const alias = document.getElementById('alias').value || null;
+
+            fetch('/marvel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, power, alias })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error creating hero');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    fetchHeroes(); // Update table
+                    heroForm.reset(); // Reset form
+                })
+                .catch(error => console.error('Error creating:', error));
+        });
+
+        // Delete a hero
+        window.deleteHero = function(id) {
+            fetch(`/marvel/${id}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error deleting hero');
+                    }
+                    return response.json();
+                })
+                .then(() => fetchHeroes()) // Update table
+                .catch(error => console.error('Error deleting:', error));
+        };
+
+        // Update a hero
+        window.updateHero = function(id) {
+            const newName = prompt("Enter new name:");
+            const newPower = prompt("Enter new power:");
+            const newAlias = prompt("Enter new alias (optional):");
+
+            if (newName && newPower) {
+                fetch(`/marvel/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: newName, power: newPower, alias: newAlias || null })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error updating hero');
+                        }
+                        return response.json();
+                    })
+                    .then(() => fetchHeroes()) // Update table
+                    .catch(error => console.error('Error updating:', error));
+            } else {
+                alert("Name and power are required for updating!");
+            }
+        };
+
+        // Fetch heroes on page load
+        fetchHeroes();
+    });
+</script>
+</body>
+</html>

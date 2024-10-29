@@ -1,10 +1,28 @@
 {
-  "name": "${PROJECT_NAME}",
+  "name": "marvel",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/marvel.test.js --exit",
+    "start": "node marvel/app.js"
   },
-  "private": true
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0",
+    "express": "^4.21.1",
+    "joi": "^17.13.3",
+    "mocha": "^8.4.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
 }

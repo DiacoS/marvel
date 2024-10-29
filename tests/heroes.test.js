@@ -33,7 +33,7 @@ describe('POST /marvel', () => {
 
         chai.request(server)
             .post('/marvel')
-            .send(newMarvel)
+            .send(newHero)
             .end((err, res) => {
                 res.should.have.status(201);
                 res.body.should.be.a('object');
@@ -52,7 +52,7 @@ describe('POST /marvel', () => {
 
         chai.request(server)
             .post('/marvel')
-            .send(newMarvel)
+            .send(newHero)
             .end((err, res) => {
                 res.should.have.status(400);
                 res.body.should.have.property('message').eql('Name, alias, and powers are required');

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/marvel.test.js --exit",
+    "test": "mocha tests/heroes.test.js --exit",
     "start": "node marvel/app.js"
   },
   "keywords": [],

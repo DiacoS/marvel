@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: Marvel
+  description: Marvel
+  version: 1.0.0
+servers:
+  - url: 'localhost:3000/heroes'
+paths:
+  /heroes:
+    get:
